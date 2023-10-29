@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record id="hms_tree_view" model="ir.ui.view">
+            <field name="name">patient Tree view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="birth_date"/>
+                    <field name="history"/>
+                    <field name="cr_ratio"/>
+                    <field name="image"/>
+                    <field name="address"/>
+                    <field name="age"/>
+                    <field name="blood_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hms_form_view" model="ir.ui.view">
+            <field name="name">patient Form view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group string="Basic Info">
+                            <field name="first_name" required='True'/>
+                            <field name="last_name" required='True'/>
+                            <field name="birth_date"/>
+                            <field name="image"/>
+                            <field name="address"/>
+                            <field name="age"/>
+                        </group>
+                        <group string="Hospital Info">
+                            <field name="history" attrs="{'invisible' : [('age', '&lt;', 50)]}"/>
+                            <field name="pcr"/>
+                            <field name="cr_ratio"/>
+                            <field name="blood_type"/>
+                            <field name="department_id" domain ="[('is_opened','=',True)]"/>
+                            <field name="department_capacity"/>
+                            <field name="doctor_ids" widget="many2many_tags" attrs="{'readonly' : [('department_id', '=', False)]}"/>
+                            <field name="patient_state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="History">
+                            <group>
+                                <field name="log_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="patient_actions" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">hms.patient</field>
+        </record>
+        <menuitem id="hms_root" name="Hospital"/>
+        <menuitem id="hms_patient_menu" name="Patient"
+                  parent="hms_root"
+                  action="patient_actions"/>
+    </data>
+</odoo>
