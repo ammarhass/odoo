@@ -27,6 +27,7 @@
                         <group string="Basic Info">
                             <field name="first_name" required='True'/>
                             <field name="last_name" required='True'/>
+                            <field name="email"/>
                             <field name="birth_date"/>
                             <field name="image"/>
                             <field name="address"/>
@@ -35,7 +36,7 @@
                         <group string="Hospital Info">
                             <field name="history" attrs="{'invisible' : [('age', '&lt;', 50)]}"/>
                             <field name="pcr"/>
-                            <field name="cr_ratio"/>
+                            <field name="cr_ratio" attrs="{'required': [('pcr','=',True)]}"/>
                             <field name="blood_type"/>
                             <field name="department_id" domain ="[('is_opened','=',True)]"/>
                             <field name="department_capacity"/>

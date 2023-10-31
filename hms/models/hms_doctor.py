@@ -7,4 +7,4 @@ class HmsDoctor(models.Model):
     first_name = fields.Char()
     last_name = fields.Char()
     image = fields.Image()
-    # patient_ids = fields.Many2many('hms.patient')
+    patient_ids = fields.Many2many('hms.patient')
