@@ -52,17 +52,21 @@ class HmsPatient(models.Model):
             self.update_log(self.state)
 
 
-
+    # @api.model
+    #     self.ensure_one() raise error if self carries more than one record
 
     @api.model
     def create(self, vals_list):
+        print("first name", self.first_name)
         name_split = vals_list['first_name'].split()
         vals_list['email'] = f"{name_split[0][0]}{vals_list['last_name']}@gmail.com"
         return super().create(vals_list)
 
     def write(self, vals):
 
-        # res = super().write(vals)
+        # super().write(vals)
+        print("first name", self.first_name)
+        print("vals['first name']", vals['first_name'])
         if 'first_name' in vals and 'last_name' in vals :
             name_split = vals['first_name'].split()
             vals['email'] = f"{name_split[0][0]}{vals['last_name']}@gmail.com"
@@ -79,7 +83,7 @@ class HmsPatient(models.Model):
             print(name_split[0][0])
             vals['email'] = f"{name_split[0][0]}{vals['last_name']}@gmail.com"
 
-        return super().write(vals)
+        super().write(vals)
 
     @api.onchange('patient_state')
     def _on_change_state(self):

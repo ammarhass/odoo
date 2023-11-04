@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="hospital_user_group" model="res.groups">
+            <field name="name">Hospital Users</field>
+        </record>
+
+          <record id="hospital_manager_group" model="res.groups">
+            <field name="name">Hospital Managers</field>
+        </record>
+    </data>
+</odoo>

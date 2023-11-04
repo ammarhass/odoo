@@ -17,46 +17,53 @@
                 </tree>
             </field>
         </record>
-
         <record id="hms_form_view" model="ir.ui.view">
             <field name="name">patient Form view</field>
             <field name="model">hms.patient</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
-                        <group string="Basic Info">
-                            <field name="first_name" required='True'/>
-                            <field name="last_name" required='True'/>
-                            <field name="email"/>
-                            <field name="birth_date"/>
-                            <field name="image"/>
-                            <field name="address"/>
-                            <field name="age"/>
-                        </group>
-                        <group string="Hospital Info">
-                            <field name="history" attrs="{'invisible' : [('age', '&lt;', 50)]}"/>
-                            <field name="pcr"/>
-                            <field name="cr_ratio" attrs="{'required': [('pcr','=',True)]}"/>
-                            <field name="blood_type"/>
-                            <field name="department_id" domain ="[('is_opened','=',True)]"/>
-                            <field name="department_capacity"/>
-                            <field name="doctor_ids" widget="many2many_tags" attrs="{'readonly' : [('department_id', '=', False)]}"/>
-                            <field name="patient_state"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page string="History">
-                            <group>
-                                <field name="log_ids">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="date"/>
-                                        <field name="description"/>
-                                    </tree>
-                                </field>
+                    <header>
+                        <button string="set blood type" type="object"
+                                name="change_blood"/>
+                        <button/>
+                        <button string="set state" type="object"
+                                name="change_state"/>
+                        <field name="state" widget="statusbar" statusbar_visible="u, g, f, s"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Basic Info">
+                                <field name="first_name" required='True'/>
+                                <field name="last_name" required='True'/>
+                                <field name="email"/>
+                                <field name="birth_date"/>
+                                <field name="image"/>
+                                <field name="address"/>
+                                <field name="age"/>
                             </group>
-                        </page>
-                    </notebook>
+                            <group string="Hospital Info">
+                                <field name="history" attrs="{'invisible' : [('age', '&lt;', 50)]}"/>
+                                <field name="pcr"/>
+                                <field name="cr_ratio" attrs="{'required': [('pcr','=',True)]}"/>
+                                <field name="blood_type"/>
+                                <field name="department_id" domain="[('is_opened','=',True)]"/>
+                                <field name="department_capacity"/>
+                                <field name="doctor_ids"  groups="hms.hospital_manager_group" widget="many2many_tags"
+                                       attrs="{'readonly' : [('department_id', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="History">
+                                    <field name="log_ids">
+                                        <tree>
+                                            <field name="create_date"/>
+                                            <field name="create_uid"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                            </page>
+                        </notebook>
+                    </sheet>
                 </form>
             </field>
         </record>
