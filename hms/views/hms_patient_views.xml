@@ -40,6 +40,7 @@
                                 <field name="image"/>
                                 <field name="address"/>
                                 <field name="age"/>
+                                <field name="user_id"/>
                             </group>
                             <group string="Hospital Info">
                                 <field name="history" attrs="{'invisible' : [('age', '&lt;', 50)]}"/>

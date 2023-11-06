@@ -21,6 +21,7 @@ class HmsPatient(models.Model):
     doctor_ids = fields.Many2many('hms.doctor')
     state = fields.Selection([('u', 'Undetermined'), ('g', 'Good'), ('f', 'Fair'), ('s', 'Serious')], default='u')
     log_ids = fields.One2many('log.history', 'create_id')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
 
     _sql_constraints = [('email_uniq', 'unique(email)', "Email you entered already exist")]
 
@@ -65,24 +66,18 @@ class HmsPatient(models.Model):
     def write(self, vals):
 
         # super().write(vals)
-        print("first name", self.first_name)
-        print("vals['first name']", vals['first_name'])
+
         if 'first_name' in vals and 'last_name' in vals :
             name_split = vals['first_name'].split()
             vals['email'] = f"{name_split[0][0]}{vals['last_name']}@gmail.com"
 
         elif 'first_name' in vals and self.last_name:
             name_split = vals['first_name'].split()
-            print("name_split[0]", name_split[0])
-            print(name_split[0][0])
             vals['email'] = f"{name_split[0][0]}{self.last_name}@gmail.com"
 
         elif 'last_name' in vals and self.first_name:
             name_split = self.first_name.split()
-            print("name_split[0]", name_split[0])
-            print(name_split[0][0])
             vals['email'] = f"{name_split[0][0]}{vals['last_name']}@gmail.com"
-
         super().write(vals)
 
     @api.onchange('patient_state')
