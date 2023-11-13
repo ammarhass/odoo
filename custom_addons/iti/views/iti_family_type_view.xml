@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="family_type_form" model="ir.ui.view">
+            <field name="name">Family Type</field>
+            <field name="model">family.type</field>
+            <field name="arch" type="xml">
+                <form>
+                <group>
+                    <field name="name"/>
+                </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="iti_family_type" model="ir.actions.act_window">
+            <field name="name">family_type</field>
+            <field name="res_model">family.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="family_type_menu" name="Family Type" parent="iti_root" action="iti_family_type"/>
+    </data>
+</odoo>

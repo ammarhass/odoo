@@ -1,0 +1,89 @@
+
+
+<odoo>
+
+    <record id="view_lawyers_form" model="ir.ui.view">
+        <field name="name">lawyers.view.form</field>
+        <field name="model">lawyers</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="new_field"/>
+                        <field name="field01"/>
+                        <field name="field02"/>
+                        <field name="field03"/>
+                        <field name="field04"/>
+                        <field name="field05"/>
+                        <field name="field06"/>
+                        <field name="field07"/>
+                        <field name="customer_id"/>
+                        <field name="customer_ids"/>
+                        <field name="customer2_ids"/>
+                      <field name="price"/>
+                    <field name="lawyer_id"/>d
+                    <field name="currency_id"/>
+                     <field name="company_id"/><field name="reference"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_lawyers_tree" model="ir.ui.view">
+        <field name="name">lawyers.view.tree</field>
+        <field name="model">lawyers</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="new_field"/>
+                <field name="field01"/>
+                <field name="field02"/>
+                <field name="field03"/>
+                <field name="field04"/>
+                <field name="field05"/>
+                <field name="field06"/>
+                <field name="field07"/>
+                <field name="customer_id"/>
+                <field name="customer_ids"/>
+                <field name="customer2_ids"/>
+                <field name="price"/>
+                <field name="lawyer_id"/>
+                <field name="currency_id"/>
+                <field name="company_id"/>
+                <field name="reference"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_lawyers_views" model="ir.actions.act_window">
+        <field name="name">lawyers Management</field>
+        <field name="res_model">lawyers</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="law_root_menu"
+              name="law and order"
+              sequence="1"/>
+
+    <menuitem id="lawyer_main_menu"
+              name="Lawyer"
+              sequence="1"
+              parent="law_root_menu"/>
+
+    <menuitem id="lawyer_new_menu"
+              name = "egypt_lawyers"
+              parent="law_root_menu"
+               sequence="2"
+                 action="actions_lawyers_views"/>
+
+    <menuitem id="all_lawyers_menu"
+              name="All lawyer"
+              sequence="1"
+              parent="lawyer_main_menu"
+              action="actions_lawyers_views"/>
+
+</odoo>

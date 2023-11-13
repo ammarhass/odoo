@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_test1_from" model="ir.ui.view">
+        <field name="name">testing_form</field>
+        <field name="model">test2.test2</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="age"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_test1_tree" model="ir.ui.view">
+        <field name="name">testing_tree</field>
+        <field name="model">test2.test2</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="age"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_test2_views" model="ir.actions.act_window">
+            <field name="name">test2 management</field>
+            <field name="res_model">test2.test2</field>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="test2_root_menu"
+              name="test2"
+              sequence="1"
+              action="actions_test2_views"/>
+</odoo>
