@@ -5,6 +5,7 @@
             <field name="model">hms.patient</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="patient_seq"/>
                     <field name="first_name"/>
                     <field name="last_name"/>
                     <field name="birth_date"/>
@@ -22,6 +23,9 @@
             <field name="model">hms.patient</field>
             <field name="arch" type="xml">
                 <form>
+                    <h1>
+                        <field name="patient_seq" nolabel="1"/>
+                    </h1>
                     <header>
                         <button string="set blood type" type="object"
                                 name="change_blood"/>
@@ -49,22 +53,28 @@
                                 <field name="blood_type"/>
                                 <field name="department_id" domain="[('is_opened','=',True)]"/>
                                 <field name="department_capacity"/>
-                                <field name="doctor_ids"  groups="hms.hospital_manager_group" widget="many2many_tags"
+                                <field name="doctor_ids" groups="hms.hospital_manager_group" widget="many2many_tags"
                                        attrs="{'readonly' : [('department_id', '=', False)]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="History">
-                                    <field name="log_ids">
-                                        <tree>
-                                            <field name="create_date"/>
-                                            <field name="create_uid"/>
-                                            <field name="description"/>
-                                        </tree>
-                                    </field>
+                                <field name="log_ids">
+                                    <tree>
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
+<!--                adding chatter-->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>

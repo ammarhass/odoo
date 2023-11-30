@@ -12,6 +12,7 @@ class Customer(models.Model):
     age = fields.Integer(string="Age", compute='_compute_age')
     lawyer_id = fields.Many2one('lawyers')
     print(type(fields.Char()))
+    nickname = fields.Char(string="Nickname", related='name', depends=['name'])
 
     @api.depends('date')
     def _compute_age(self):

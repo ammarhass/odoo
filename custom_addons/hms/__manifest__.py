@@ -1,6 +1,6 @@
 {
     "name": "HMS Module",
-    "depends": ["base"],
+    "depends": ["base", "mail"],
 
     "data": [
 
@@ -14,6 +14,7 @@
         "report/hms_patient_template.xml",
         "report/hms_reports.xml",
         "data/hms_patient.xml",
+        "data/patient_data.xml",
     ],
 
 

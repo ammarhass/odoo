@@ -8,10 +8,7 @@ class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
     _order = 'id desc'
-    _sql_constraints = [
-        ("check_expected_price", "CHECK(expected_price > 0)", "The expected price must be strictly positive"),
-        ("check_selling_price", "CHECK(selling_price >= 0)", "The offer price must be positive"),
-    ]
+
     def _default_date_availability(self):
         return fields.Date.context_today(self) + relativedelta(months=3)
 
@@ -53,6 +50,12 @@ class EstateProperty(models.Model):
     nickname = fields.Char(
         related='buyer_id.name', store=True,
         depends=['buyer_id'])
+
+    _sql_constraints = [
+        ("check_expected_price", "CHECK(expected_price > 0)", "The expected price must be strictly positive"),
+        ("check_selling_price", "CHECK(selling_price >= 0)", "The offer price must be positive"),
+    ]
+
     @api.constrains("expected_price", "selling_price")
     def _check_price_difference(self):
         for rec in self:

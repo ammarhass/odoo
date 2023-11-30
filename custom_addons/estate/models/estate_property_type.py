@@ -26,11 +26,14 @@ class EstatePropertyType(models.Model):
         #     prop_type.offer_count = mapped_count.get(prop_type.id, 0)
         #     prop_type.offer_ids = mapped_ids.get(prop_type.id, [])
         for rec in self:
-                print(type(rec.offer_ids))
+                print(rec.mapped("name"))
                 rec.offer_count = len(rec.mapped("offer_ids"))
 
 
     def action_view_offers(self):
+        # print(self.env.ref("estate.estate_property_offer_action"))
         res = self.env.ref("estate.estate_property_offer_action").read()[0]
+        print(self.env['estate.property.tag'].search([]))
         # res["domain"] = [("id", "in", self.offer_ids.ids)]
+        # print(res)
         return res

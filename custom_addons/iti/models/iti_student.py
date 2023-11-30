@@ -1,19 +1,20 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
+from datetime import date, datetime
 
 
 class ItiStudent(models.Model):
     _name = "iti.student"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char()
+    name = fields.Char(tracking=True)
     birthdate = fields.Date()
     tax = fields.Float(compute="calc_tax", store=False)
     salary = fields.Float()
     net_salary = fields.Float(compute="clac_tax")
     address = fields.Text()
     email = fields.Char(readonly=True)
-    gender = fields.Selection([('m', "Male"), ('f', "Female")])
+    gender = fields.Selection([('m', "Male"), ('f', "Female")], default=None)
     accepted = fields.Boolean()
     level = fields.Integer()
     image = fields.Binary()
@@ -29,7 +30,7 @@ class ItiStudent(models.Model):
         ('second', 'Second Interview'),
         ('passed', 'Passed'),
         ('rejected', 'Rejected')
-    ], default='applied')
+    ], default='applied', Tracking=True)
 
     family_ids = fields.One2many('student.family','student_id','Family')
     # family_ids = fields.Many2many('student.family', string='Family')
@@ -76,10 +77,20 @@ class ItiStudent(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
+        print("Entering write function")
+        print(self.salary)
+
         if 'name' in vals:
             name_split = vals['name'].split()
             vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
-        super().write(vals)
+
+        if 'salary' in vals:
+            x = vals['salary']
+            print(x)
+            vals['salary'] = x
+            print(vals['salary'])
+        print(self.level)
+        return super().write(vals)
 
     # def unlink(self):
     #     for record in self:
@@ -100,6 +111,10 @@ class ItiStudent(models.Model):
             self.state = 'second'
         elif self.state in ['passed', 'rejected']:
             self.state = 'applied'
+        self.message_post(body="user changed the state of {}".format(self.name))
+
+        print(self.env.ref("iti.student_tree_view").read()[0])
+
 
     def set_passed(self):
         self.state = 'passed'
@@ -111,7 +126,7 @@ class ItiStudent(models.Model):
     def _on_change_gender(self):
         domain = {'track_id': []}
         if not self.gender:
-            self.gender = 'm'
+            # self.gender = 'm'
             return {}
         if self.gender == 'm':
             domain = {'track_id': [('is_open', '=', True)]}
@@ -126,6 +141,49 @@ class ItiStudent(models.Model):
             'domain': domain
         }
 
+    def any_pyfunction(self):
+        vals = {
+            'subject': 'Testing odoo',
+            'body_html': "hello",
+            'email_to': 'ammar.hass94@gmail.com',
+            'auto_delete': False,
+        }
+        print("hi")
+        mail = self.env['mail.mail'].sudo().create(vals)
+        mail.sudo().send()
+
+    def student_report(self):
+        data = {
+            'model_id': self.id,
+            'date': self.admin_date,
+            'student': self.name,
+            'image': self.image,
+            'class': self.class_id
+            }
+
+    def server_action_fun(self):
+        print("server action function")
+        # # for rec in self:
+        # print("entering for loop")
+        print(self.env['iti.student'].browse(self._context.get("active_ids")))
+        self.env['iti.student'].browse(self._context.get("active_ids")).write({'salary': 400.0})
+
+        # print("after updatin salary")
+        # # self.write(
+        # #             {
+        # #                 "name": 'mamdouh ahmed'
+        # #             }
+        # #         )
+
+    def wiz_open(self):
+
+        return self.env['ir.actions.act_window']._for_xml_id("iti.student_wizard_actions")
+
+        # return {'type': 'ir.actions.act_window',
+        #         'res_model': 'student.update.wizard',
+        #         'view_mode': 'form',
+        #         'target': 'new'
+        #          }
 
 class StudentGrades(models.Model):
     _name = 'iti.grades'

@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+
+        <record id="student_update_wizard_form" model="ir.ui.view">
+            <field name="name">student.update.form</field>
+            <field name="model">student.update.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="total_salary"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Update Salary" type="object" name="update_student_salary"/>
+                        <button string="Cancel" special="cancel" class="btn btn-second"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_wizard_actions" model="ir.actions.act_window">
+            <field name="name">Student Update Salary</field>
+            <field name="res_model">student.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--        <record id="student_wizard_actions_window" model="ir.actions.act_window">-->
+<!--            <field name="name">Student Update Salary</field>-->
+<!--            <field name="res_model">student.update.wizard</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="view_id" ref="iti.student_update_wizard_form"/>-->
+<!--            <field name="target">new</field>-->
+<!--            <field name="binding_model_id" ref="iti.model_student_update_wizard"/>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--        </record>-->
+
+        <record id="Wizard_server_action_window" model="ir.actions.server">
+            <field name="name">Wizard Server Action</field>
+            <field name="model_id" ref="iti.model_student_update_wizard"/>
+            <field name="binding_model_id" ref="iti.model_iti_student"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = env['iti.student'].wiz_open()
+            </field>
+        </record>
+
+    </data>
+</odoo>

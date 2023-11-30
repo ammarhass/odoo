@@ -25,6 +25,11 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
+                        <button class="oe_stat_button" type="object" name="student_report" string="Student Admission"/>
+                        <button name="wiz_open" string="Open Wizard" type="object"/>
+                        <button name="iti.student_wizard_actions" string="Open Wizard Action" type="action"/>
+                    </header>
+                    <header>
                         <button string="set first interview"
                                 type="object" name="change_state" states="applied"/>
                         <button string="set second interview" type="object" name="change_state" states="first"/>
@@ -46,6 +51,7 @@
                                        attrs="{'invisible': [('gender','=','f')]}"
                                 />
                                 <field name="address"/>
+                                <field name="level"/>
                                 <field name="gender"/>
                                 <field name="tax"/>
                                 <field name="salary"/>

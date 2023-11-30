@@ -8,3 +8,4 @@ class HmsDoctor(models.Model):
     last_name = fields.Char()
     image = fields.Image()
     patient_ids = fields.Many2many('hms.patient')
+    doc_seq = fields.Char("Doctor Seq")
