@@ -141,16 +141,16 @@ class ItiStudent(models.Model):
             'domain': domain
         }
 
-    def any_pyfunction(self):
-        vals = {
-            'subject': 'Testing odoo',
-            'body_html': "hello",
-            'email_to': 'ammar.hass94@gmail.com',
-            'auto_delete': False,
-        }
-        print("hi")
-        mail = self.env['mail.mail'].sudo().create(vals)
-        mail.sudo().send()
+    # def any_pyfunction(self):
+    #     vals = {
+    #         'subject': 'Testing odoo',
+    #         'body_html': "hello",
+    #         'email_to': 'ammar.hass94@gmail.com',
+    #         'auto_delete': False,
+    #     }
+    #     print("hi")
+    #     mail = self.env['mail.mail'].sudo().create(vals)
+    #     mail.sudo().send()
 
     def student_report(self):
         data = {

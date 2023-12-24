@@ -25,7 +25,7 @@ class HmsPatient(models.Model):
     log_ids = fields.One2many('log.history', 'create_id')
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     patient_seq = fields.Char("Patient Code", readonly=1)
-
+    color = fields.Char()
 
     _sql_constraints = [('email_uniq', 'unique(email)', "Email you entered already exist")]
 

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="hospital_layout">
+        <div class="header">
+
+        </div>
+        <div class="footer">
+
+        </div>
+    </template>
+
+    <template id="custom_patient_profile_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <h1 t-field="doc.first_name"/>
+            </t>
+        </t>
+    </template>
+
+<!--    """call qweb template"""-->
+    <template id="sub_patient_template">
+        <t t-call="web.external_layout">
+                    <div class="page">
+<!--                        <p t-att="['style', 'background-color: red']">-->
+<!--                            Hello Patient-->
+<!--                        </p>-->
+<!--                        <p t-att="{'style': 'background-color: green', 'href': 'www.google.com'}">-->
+<!--                              Hello Patient-->
+<!--                        </p>-->
+                            <p t-attf-style="background-color:#{doc.color};">
+                                Hello this is patient <span style="font-weight:bold;" t-esc="doc.first_name"/>
+                            </p>
+<!--                        <p t-attf-style="background-color:{{doc.color if doc.color else 'red'}};">-->
+<!--                            Hello this is dynamic color changes....-->
+<!--                        </p>-->
+<!--                        <a href="www.google.com">-->
+<!--                            Google-->
+<!--                        </a>-->
+                        its in sub template
+<!--                        <t t-call="qweb_pdf_report_example.sub_variable_template"/>-->
+<!--                        <t t-call="qweb_pdf_report_example.sub_conditional_template"/>-->
+<!--                        <t t-call="qweb_pdf_report_example.sub_looping_template"/>-->
+                    </div>
+                </t>
+    </template>
+
+    <template id="sub_variable_template">
+<!--        """t-field t-esc and t-out topic"""-->
+        <h1>Hello How are you?</h1>
+        <t t-set="a" t-value="1234567"/>
+<!--        <t t-field="a"/>-->
+        <h1 t-field="doc.first_name"/>
+        <h2 t-esc="doc.last_name"/>
+        <h3 t-esc="doc.email"/>
+        <h4 t-esc="doc.birth_date"/>
+    </template>
+
+    <template id="sub_conditional_template">
+<!--        """conditional statement""" &ndash;&gt;-->
+        <t t-if="doc.first_name == 'ahmed'">
+            <p>Yes this is <span t-esc="doc.first_name"/></p>
+        </t>
+        <t t-elif="doc.first_name == 'mohamed'">
+            <p>Yes, This is my fav patient <span t-field="doc.first_name"/></p>
+        </t>
+        <t t-else="">
+            <p>No this is not ahmed</p>
+            <p>This is <span t-field="doc.first_name"/></p>
+        </t>
+<!--                  "conditional statement"-->
+        <p t-if="doc.first_name == 'ahmed'">Yes this is <span t-esc="doc.first_name"/></p>
+        <p t-elif="doc.first_name == 'mohamed'">Yes, This is my fav patient <span t-field="doc.first_name"/></p>
+        <p t-else=""><p>No this is not ahmed</p>This is <span t-field="doc.first_name"/></p>
+    </template>
+
+    <template id="sub_looping_template">
+<!--                   "looping statement Topic"&ndash;&gt;-->
+        <t t-foreach="doc.department_id.patient_ids" t-as="rec">
+            <h1 t-esc="rec.first_name"/>
+            sequence of foreach loop:- <span t-esc="rec_index"/>
+            Is this first index? <span t-esc="rec_first"/>
+            Is this last index? <span t-esc="rec_last"/>
+            <p t-esc="rec"/>
+            <p t-esc="rec_value"/>
+            <p t-esc="rec_parity"/>
+            <p t-esc="rec_even"/>
+            <p t-esc="rec_odd"/>
+        </t>
+        <t t-set="a" t-value="1234"/>
+        <t t-esc="a"/>
+        <t t-set="a" t-value="'HMS'"/>
+        <p t-esc="a"/>
+
+        <t t-set="a" t-value="0"/>
+        <t t-foreach="doc.department_id.patient_ids" t-as="rec">
+            <t t-set="a" t-value="a + 1"/>
+        </t>
+        <p t-esc="a"/>
+    </template>
+
+<!--    """create paper format"""-->
+        <record id="patient_hms_custom_paperformat" model="report.paperformat">
+            <field name="name">Patient Custom Paper format</field>
+<!--            <field name="default" eval="False" />-->
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">25</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">7</field>
+<!--            <field name="header_line" eval="False" />-->
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+            <field name="print_page_width">0</field>
+            <field name="print_page_height">0</field>
+        </record>
+
+
+    <record id="patient_profile_report_action" model="ir.actions.report">
+        <field name="name">Custom PATIENT Card</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pdf_qweb_pdf_report_example.custom_patient_profile_report</field>
+        <field name="report_file">pdf_qweb_pdf_report_example.custom_patient_profile_report</field>
+        <field name="print_report_name">'Print Badge - %s' % (object.first_name).replace('/', '')</field>
+        <field name="binding_model_id" ref="hms.model_hms_patient"/>
+        <field name="binding_type">report</field>
+<!--        <field name="paperformat_id" ref="qweb_pdf_report_example.patient_hms_custom_paperformat"/>-->
+    </record>
+
+<!--    <record id="patient_report_profiles_action" model="ir.actions.report">-->
+<!--        <filed name="name">Patient Details</filed>-->
+<!--        <field name="model">hms.patient</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">qweb_pdf_report_example.patient_profile_report</field>-->
+<!--        <field name="report_file">qweb_pdf_report_example.patient_profile_report</field>-->
+<!--        <field name="print_report_name">Patient-Card</field>-->
+<!--&lt;!&ndash;        <field name="binding_model_id" ref="hms.model_hms_patient"/>&ndash;&gt;-->
+<!--        <field name="binding_type">report</field>-->
+
+<!--    </record>-->
+</odoo>

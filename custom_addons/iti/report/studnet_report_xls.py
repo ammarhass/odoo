@@ -34,7 +34,7 @@ class EmployeesreportXlsx(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, employees):
         print("Employees ", employees)
         bold = workbook.add_format({'bold': True})
-        sheet = workbook.add_worksheet('Employees Info'
+        sheet = workbook.add_worksheet('Employees Info')
         row = 0
         col = 0
         sheet.write(row, col, 'Name', bold)

@@ -4,7 +4,6 @@
 
     "data": [
 
-
         "security/hms_security.xml",
         "security/ir.model.access.csv",
         "views/hms_patient_views.xml",

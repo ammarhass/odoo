@@ -20,7 +20,7 @@
 <!--            <field name="nextcall" eval="(datetime.utcnow() + timedelta(days=0).strftime('%y-%m-%d 12:01:00)"/>-->
             <field name="model_id" ref="model_iti_student"/>
             <field name="state">code</field>
-            <field name="code">model.any_pyfunction()</field>
+<!--            <field name="code">model.any_pyfunction()</field>-->
         </record>
     </data>
 </odoo>

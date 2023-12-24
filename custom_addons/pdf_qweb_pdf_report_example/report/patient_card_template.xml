@@ -1,0 +1,54 @@
+<odoo>
+
+    <template id="patient_card_pdf_report">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="patient">
+                    <div class="col-md-6">
+                        <table style="width:240pt; height:150pt; border: 1pt solid black; border-radius:8pt; margin:5pt; ">
+                            <tr>
+                                <td>
+<!--                                    <img t-if="patient.image"-->
+<!--                                         style="max-height: 80pt; max-width:80pt;"-->
+<!--                                         t-att-src="image_data_uri(patient.image)"-->
+<!--                                         alt="Patient Image"/>-->
+
+<!--                                    <img t-attf-src="data:image/jpeg;base64,#(patient.image)"-->
+<!--                                         t-if="patient.image"-->
+<!--                                         style="max-height: 80pt; max-width:80pt;"-->
+<!--                                         alt="Patient Image"/>-->
+<!--                                    <div t-field="patient.image"-->
+<!--                                         t-options="{'widget': 'image', 'width': 50, 'height': 50, 'img_style': 'max-height:50pt;max-width:50pt;'}"/>-->
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th style="background-color: green;">
+                                                <t  t-esc="patient.first_name"/>
+                                            </th>
+                                            <th>
+                                                <t t-esc="patient.department_id.name"/>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <record id="hospital_patient_profile_card" model="ir.actions.report">
+<field name="name">HMS PATIENT Card</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">qweb_pdf_report_example.patient_card_pdf_report</field>
+        <field name="report_file">qweb_pdf_report_example.patient_card_pdf_report</field>
+        <field name="print_report_name">'Print Badge - %s' % (object.first_name).replace('/', '')</field>
+        <field name="binding_model_id" ref="hms.model_hms_patient"/>
+        <field name="binding_type">report</field>
+<!--        <field name="paperformat_id" ref="qweb_pdf_report_example.patient_hms_custom_paperformat"/>-->
+    </record>
+</odoo>
