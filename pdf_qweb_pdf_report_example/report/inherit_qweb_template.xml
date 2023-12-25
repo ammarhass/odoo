@@ -1,0 +1,12 @@
+<odoo>
+
+<!--        <template inherit_id="qweb_pdf_report_example.sub_patient_template" id="sub_patient_template_extend">-->
+<!--                <xpath expr="//div[hasclass('page')]"   position="after">-->
+<!--                    <div calss="page">-->
+<!--                        <h1>I am extending my existing template</h1>-->
+<!--                    </div>-->
+<!--                </xpath>-->
+<!--        </template>-->
+
+
+</odoo>

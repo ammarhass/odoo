@@ -1,0 +1,120 @@
+<odoo>
+    <data>
+
+
+        <record id="student_tree_view" model="ir.ui.view">
+            <field name="name">Student Tree View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="student_seq"/>
+                    <field name="name"/>
+                    <field name="birthdate"/>
+                    <field name="salary"/>
+                    <field name="image"/>
+                    <field name="cv"/>
+                    <field name="address"/>
+                    <field name="skills_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_form_view" model="ir.ui.view">
+            <field name="name">Student Form View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button class="oe_stat_button" type="object" name="student_report" string="Student Admission"/>
+                        <button name="wiz_open" string="Open Wizard" type="object"/>
+                        <button name="iti.student_wizard_actions" string="Open Wizard Action" type="action"/>
+                    </header>
+                    <header>
+                        <button string="set first interview"
+                                type="object" name="change_state" states="applied"/>
+                        <button string="set second interview" type="object" name="change_state" states="first"/>
+                        <button string="passed" type="object" name="set_passed" states="second"/>
+                        <button string="rejected" type="object" name="set_rejected" states="second"/>
+                        <button string="Back to applied" type="object" name="change_state"
+                                attrs="{'invisible': ['&amp;',('state', '!=', 'rejected'),('state', '!=', 'passed')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <h1>
+                                <field name="student_seq" nolabe="1"/>
+                            </h1>
+                            <group string="Basic Info">
+                                <field name="name"/>
+                                <field name="email"/>
+                                <field name="birthdate"
+                                       attrs="{'invisible': [('gender','=','f')]}"
+                                />
+                                <field name="address"/>
+                                <field name="level"/>
+                                <field name="gender"/>
+                                <field name="tax"/>
+                                <field name="salary"/>
+
+                                <field name="image"/>
+                            </group>
+                            <group string="ITI info">
+                                <field name="cv"/>
+                                <field name="track_id" groups="iti.iti_manager_group"/>
+                                <field name="track_capacity"/>
+                                <field name="skills_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="CV">
+                                <group>
+                                    <field name="cv"/>
+                                </group>
+                            </page>
+                            <page string="Grade">
+                                <group>
+                                    <field name="grade_ids">
+                                        <tree>
+                                            <field name="skills_id"/>
+                                            <field name="grade"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Family">
+                                <field name="family_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="relative_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="students_actions" model="ir.actions.act_window">
+            <field name="name">Students</field>
+            <field name="res_model">iti.student</field>
+        </record>
+
+        <menuitem id="iti_root" name="ITI"/>
+        <menuitem id="iti_student_menu" name="Students"
+                  parent="iti_root"
+                  action="students_actions"/>
+
+        <record id="student_sequence" model="ir.sequence">
+            <field name="name">Student Code</field>
+            <field name="code">iti.student</field>
+            <field name="prefix">School</field>
+            <field name="number_increment" eval="1"/>
+        </record>
+    </data>
+</odoo>

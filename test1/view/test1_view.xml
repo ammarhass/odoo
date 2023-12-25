@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_test1_from" model="ir.ui.view">
+        <field name="name">testing_form</field>
+        <field name="model">test1.test1</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="age"/>
+                        <field name="test_id"/>
+                        <field name="employee_id"/>
+                        <field name="price"/>
+                        <field name="currency_id"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_test1_tree" model="ir.ui.view">
+        <field name="name">testing_tree</field>
+        <field name="model">test1.test1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="test_id"/>
+                     <field name="employee_id"/>
+                     <field name="price"/>
+                     <field name="currency_id"/>
+                     <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_test1_views" model="ir.actions.act_window">
+            <field name="name">test1 management</field>
+            <field name="res_model">test1.test1</field>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="test1_root_menu"
+              name="test1"
+              sequence="1"
+              action="actions_test1_views"/>
+</odoo>

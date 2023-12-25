@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="customer_form" model="ir.ui.view">
+        <field name="name">view.name</field>
+        <field name="model">customer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="nickname"/>
+                        <field name="title"/>
+                        <field name="date"/>
+                        <field name="time"/>
+                        <field name="age"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="customer_tree" model="ir.ui.view">
+        <field name="name">view.name</field>
+        <field name="model">customer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="title"/>
+                <field name="date"/>
+                <field name="time"/>
+                <field name="age"/>
+            </tree>
+        </field>
+
+    </record>
+
+        <record id="actions_customer_views" model="ir.actions.act_window">
+            <field name="name">customers Management</field>
+            <field name="res_model">customer</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <menuitem id="customer_main_menu"
+              name="customer"
+              sequence="1"
+              parent="law_root_menu"/>
+
+
+    <menuitem id="all_customer_menu"
+              name="all customer"
+              parent="customer_main_menu"
+              sequence="1"/>
+
+    <menuitem id="sub_customer_menu"
+              name="era customer"
+              parent="customer_main_menu"
+              sequence="1"
+              action="actions_customer_views"/>
+
+    <menuitem id="egypt_customer_menu"
+              name="egypt_customers"
+              parent="all_customer_menu"
+              sequence="1"
+              action="actions_customer_views"/>/>
+
+
+
+
+</odoo>

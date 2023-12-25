@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="iti_student_family" model="ir.actions.act_window">
+            <field name="name">student_family</field>
+            <field name="res_model">student.family</field>
+        </record>
+
+
+    </data>
+</odoo>

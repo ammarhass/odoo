@@ -1,0 +1,14 @@
+ <odoo>
+     <data>
+         <template id="iti_student_template">
+             <html>
+                 <header>
+                     <body>
+
+                     </body>
+                 </header>
+             </html>
+
+         </template>
+     </data>
+ </odoo>
