@@ -7,11 +7,14 @@ class ItiStudent(models.Model):
     _name = "iti.student"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    def Say_Hello(self):
+        print("Hello from terminal")
+
     name = fields.Char(tracking=True)
     birthdate = fields.Date()
-    tax = fields.Float(compute="calc_tax", store=False)
+    tax = fields.Float(compute='calc_tax', store=False)
     salary = fields.Float()
-    net_salary = fields.Float(compute="clac_tax")
+    net_salary = fields.Float(compute='calc_tax')
     address = fields.Text()
     email = fields.Char(readonly=True)
     gender = fields.Selection([('m', "Male"), ('f', "Female")], default=None)
@@ -32,29 +35,28 @@ class ItiStudent(models.Model):
         ('rejected', 'Rejected')
     ], default='applied', Tracking=True)
 
-    family_ids = fields.One2many('student.family','student_id','Family')
+    family_ids = fields.One2many('student.family', 'student_id', 'Family')
     # family_ids = fields.Many2many('student.family', string='Family')
     email_sent = fields.Boolean("Email Sent", default=False)
     student_seq = fields.Char("Student Code", readonly=1)
-
 
     _sql_constraints = [
         ('name_uniq', 'unique (name)',
          "the name you entered already exist"),
         ('email_uniq', 'unique (email)', "the email you entered already exist")
     ]
+
     # def _action_send_email(self):
     #     students_ids = self.env['iti.student'].search([('email_sent', '=', False)])
     #     for student in students_ids:
     #         if student.mail_sent is False:
 
-
-
-
     @api.constrains("salary")
     def check_salary(self):
-        if self.salary > 10000:
-            raise UserError("salary is higher than 10000")
+        for rec in self:
+            print("hello from api constrain (salary)")
+            if rec.salary > 10000:
+                raise UserError("salary is higher than 10000")
 
     @api.constrains("track_id")
     def checK_track_capacity(self):
@@ -63,34 +65,52 @@ class ItiStudent(models.Model):
         if track_count > track_capacity:
             raise UserError("Track is full")
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
-        vals_list['student_seq'] = self.env['ir.sequence'].next_by_code("iti.student")
-        name_split = vals_list['name'].split()
-        vals_list['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
-        search_students = self.search([('email', '=', vals_list['email'])])
-        track = self.env['iti.track'].browse(vals_list['track_id'])
-        if track.is_open is False:
-            raise UserError("Selected track is closed")
-        if search_students:
-            raise UserError("Email already exist")
-        return super().create(vals_list)
-
-    def write(self, vals):
-        print("Entering write function")
-        print(self.salary)
-
-        if 'name' in vals:
+        # for i in range(len(vals_list)):
+        for vals in vals_list:
+            print("List of ", vals)
+            vals['student_seq'] = self.env['ir.sequence'].next_by_code("iti.student")
             name_split = vals['name'].split()
             vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
+            search_students = self.search([('email', '=', vals['email'])])
+            track = self.env['iti.track'].browse(vals['track_id'])
+            if track.is_open is False:
+                raise UserError("Selected track is closed")
+            if search_students:
+                raise UserError("Email already exist")
+            return super().create(vals)
 
-        if 'salary' in vals:
-            x = vals['salary']
-            print(x)
-            vals['salary'] = x
-            print(vals['salary'])
-        print(self.level)
+    def write(self, vals):
+        print(vals)
+        print("Entering write function")
+        # print(self.salary)
+        for rec in self:
+            if 'name' in vals:
+                name_split = vals['name'].split()
+                vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
+            #
+            # if 'salary' in vals:
+            #     x = vals['salary']
+            #     print(x)
+            #     vals['salary'] = x
+            #     print(vals['salary'])
+
+            print(rec.level)
         return super().write(vals)
+
+    def copy(self, default=None):
+        print("Hello from copy")
+        rtn = super().copy(default=default)
+        return rtn
+
+    @api.model
+    def default_get(self, fields_list):
+        print("field_list ", fields_list)
+        rec = super().default_get(fields_list)
+        print("return statement ", rec)
+        return rec
+
 
     # def unlink(self):
     #     for record in self:
@@ -100,6 +120,7 @@ class ItiStudent(models.Model):
 
     @api.depends('salary')
     def calc_tax(self):
+        print("hello from depends")
         for rec in self:
             rec.tax = rec.salary * 0.20
             rec.net_salary = rec.salary - rec.tax
@@ -115,15 +136,19 @@ class ItiStudent(models.Model):
 
         print(self.env.ref("iti.student_tree_view").read()[0])
 
-
     def set_passed(self):
         self.state = 'passed'
 
     def set_rejected(self):
         self.state = 'rejected'
 
+    # @api.onchange('track_id')
+    # def _on_change_track_id(self):
+    #     print(self.gender)
+
     @api.onchange('gender')
     def _on_change_gender(self):
+        # print(self.track_id)
         domain = {'track_id': []}
         if not self.gender:
             # self.gender = 'm'
@@ -159,7 +184,7 @@ class ItiStudent(models.Model):
             'student': self.name,
             'image': self.image,
             'class': self.class_id
-            }
+        }
 
     def server_action_fun(self):
         print("server action function")
@@ -184,6 +209,7 @@ class ItiStudent(models.Model):
         #         'view_mode': 'form',
         #         'target': 'new'
         #          }
+
 
 class StudentGrades(models.Model):
     _name = 'iti.grades'

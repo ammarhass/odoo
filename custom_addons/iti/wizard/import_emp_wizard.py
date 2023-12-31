@@ -4,6 +4,7 @@ from io import BytesIO
 from odoo import models, fields
 import openpyxl
 
+
 class ImportWizard(models.TransientModel):
 
     _name = 'employee.wizard.import'

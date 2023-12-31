@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="test_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header">
+            <div class="text-center" style="border-bottom: 1px solid black;">
+                <div class="row">
+                    <div class="col-3 mb4">
+                        <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:90px;"/>
+                    </div>
+                    <div class="col-3">
+                        <p>Hello your data content also can be printed</p>
+                    </div>
+
+                    <div class="col-9 text-right">
+                       <li> <span t-field="company.partner_id"/></li>
+                       <li> <span t-field="company.street"/></li>
+                       <li> <span t-field="company.state_id"/><span style="margin-left=18px; background-color:yellow" t-field="company.zip"/> </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer o_standard_footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+<!--                <div class="cal-4">-->
+<!--                    <span t-field="company.email"/>-->
+<!--                </div><div class="cal-4">-->
+<!--                    <span t-field="company.phone"/>-->
+<!--                    <span t-field="company.mobile"/>-->
+<!--                </div><div class="cal-4">-->
+<!--                    <span t-field="company.website"/>-->
+<!--                </div>-->
+                <ul class="list-inline mb4">
+                    <span t-raw="company.report_footer"/>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <template id="custom_patient_profile_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="custom_header_footer_pdf.test_layout">
+                    <h1 t-field="doc.first_name"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="custom_patient_profile_report_action" model="ir.actions.report">
+        <field name="name">Custom PATIENT Card</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_header_footer_pdf.custom_patient_profile_report</field>
+        <field name="report_file">custom_header_footer_pdf.custom_patient_profile_report</field>
+        <field name="print_report_name">'Print Badge - %s' % (object.first_name).replace('/', '')</field>
+        <field name="binding_model_id" ref="hms.model_hms_patient"/>
+        <field name="binding_type">report</field>
+        <!--        <field name="paperformat_id" ref="qweb_pdf_report_example.patient_hms_custom_paperformat"/>-->
+    </record>
+
+
+</odoo>

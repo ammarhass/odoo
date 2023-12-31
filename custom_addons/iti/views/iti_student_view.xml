@@ -40,7 +40,6 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <group>
                             <h1>
                                 <field name="student_seq" nolabe="1"/>
                             </h1>
@@ -60,11 +59,10 @@
                             </group>
                             <group string="ITI info">
                                 <field name="cv"/>
-                                <field name="track_id" groups="iti.iti_manager_group"/>
+                                <field name="track_id"/>
                                 <field name="track_capacity"/>
                                 <field name="skills_ids" widget="many2many_tags"/>
                             </group>
-                        </group>
                         <notebook>
                             <page string="CV">
                                 <group>

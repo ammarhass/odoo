@@ -11,3 +11,6 @@ iti_manager_Wizard_type,iti_manager_Wizard_type,model_student_update_wizard,iti_
 iti_Employee_Wizard_type,iti_Employee_Wizard_type,model_employee_wizard_new,iti_manager_group,1,1,1,1
 iti_Employee_Wizard_import,iti_Employee_Wizard_import,model_employee_wizard_import,iti_manager_group,1,1,1,1
 
+iti_manager_track_access,iti_manager_track_access,model_iti_track,iti_manager_group,1,1,1,1
+iti_manager_grade_access,iti_manager_grade_access,model_iti_grades,iti_manager_group,1,1,1,1
+iti_manager_skill_access,iti_manager_skill_access,model_iti_skill,iti_manager_group,1,1,1,1

@@ -25,6 +25,6 @@
         <menuitem id="iti_track_action"
                   name="Tracks"
                   parent="iti_root"
-                  action="iti_track_menu" groups="iti.iti_manager_group"/>
+                  action="iti_track_menu"/>
     </data>
 </odoo>
